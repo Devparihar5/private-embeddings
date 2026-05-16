@@ -120,7 +120,6 @@ Privacy cost: **ε total** — not ε per query.
 │   └── store.py         # ChromaDB client, upsert, query helpers
 ├── experiments/
 │   └── run_tradeoff.py  # Main experiment — sweeps ε, saves CSV
-├── notebooks/           # Jupyter notebooks for plots and analysis
 ├── results/
 │   └── tradeoff.csv     # Output: epsilon | sigma | recall@3
 ├── docker-compose.yml   # ChromaDB container (pinned to 0.6.3)
@@ -154,11 +153,11 @@ python experiments/run_tradeoff.py
 
 | ε    | σ (noise std) | Recall@3 Gaussian | Recall@3 SVT | Privacy level |
 |------|--------------|-------------------|--------------|---------------|
-| 0.1  | ~48.45       | ~0.20             | varies       | Very strong   |
-| 0.5  | ~9.69        | ~0.07             | varies       | Strong        |
-| 1.0  | ~4.84        | ~0.33             | varies       | Moderate      |
-| 5.0  | ~0.97        | ~0.27             | varies       | Weak          |
-| 10.0 | ~0.48        | ~0.13             | varies       | Very weak     |
+| 0.1  | 48.4481      | 0.20              | 0.33         | Very strong   |
+| 0.5  | 9.6896       | 0.13              | 0.27         | Strong        |
+| 1.0  | 4.8448       | 0.40              | 0.27         | Moderate      |
+| 5.0  | 0.9690       | 0.33              | 0.33         | Weak          |
+| 10.0 | 0.4845       | 0.13              | 0.40         | Very weak     |
 
 Full results saved to `results/tradeoff.csv` after each run.
 
