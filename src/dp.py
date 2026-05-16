@@ -2,8 +2,8 @@
 Differential Privacy mechanisms.
 
 Implements:
-  1. Gaussian mechanism  — (ε, δ)-DP noise injection for embeddings
-  2. Sparse Vector Technique (SVT) — AboveThreshold + Sparse
+  1. Gaussian mechanism  - (ε, δ)-DP noise injection for embeddings
+  2. Sparse Vector Technique (SVT) - AboveThreshold + Sparse
      Based on: Lyu, Su & Li, "Understanding the Sparse Vector Technique
      for Differential Privacy", VLDB 2017.
      https://arxiv.org/abs/1603.01699
@@ -45,7 +45,7 @@ def add_dp_noise(
 
 # ---------------------------------------------------------------------------
 # Sparse Vector Technique  ε-DP
-# Lyu, Su & Li — VLDB 2017, §3
+# Lyu, Su & Li - VLDB 2017, §3
 # ---------------------------------------------------------------------------
 
 def above_threshold(

@@ -3,10 +3,10 @@ Privacy-Utility Trade-off Experiment
 =====================================
 Compares two DP mechanisms for private similarity search in ChromaDB:
 
-  1. Gaussian Mechanism  — (ε, δ)-DP noise injected into stored embeddings
+  1. Gaussian Mechanism  - (ε, δ)-DP noise injected into stored embeddings
      Standard approach; σ = sensitivity × √(2 ln(1.25/δ)) / ε
 
-  2. Sparse Vector Technique (SVT)  — ε-DP query-answering
+  2. Sparse Vector Technique (SVT)  - ε-DP query-answering
      Lyu, Su & Li, "Understanding the Sparse Vector Technique for
      Differential Privacy", VLDB 2017. https://arxiv.org/abs/1603.01699
 
@@ -42,7 +42,7 @@ DOCUMENTS = [
     "Checking account balance is $4,200 with two pending transactions.",
     "Diagnosed with generalized anxiety disorder; referred to therapist.",
     "Home equity line of credit approved for $50,000 at 7.5% APR.",
-    "Blood pressure reading: 138/88 mmHg — borderline hypertensive.",
+    "Blood pressure reading: 138/88 mmHg - borderline hypertensive.",
     "Retirement savings total $280,000 across IRA and 401k accounts.",
     "Patient is allergic to penicillin and sulfa-based antibiotics.",
 ]
@@ -86,7 +86,7 @@ def svt_recall(
     Average Recall@3 for SVT (Lyu et al. 2017) over REPEATS trials.
 
     SVT checks each document's cosine similarity against the query and
-    returns the first SVT_C documents above SVT_THRESHOLD — paying a
+    returns the first SVT_C documents above SVT_THRESHOLD - paying a
     fixed ε total, not ε per document.
     """
     recalls = []
@@ -105,7 +105,7 @@ def run() -> None:
     np.random.seed(42)
 
     print("=" * 65)
-    print("Differential Privacy × ChromaDB — Trade-off Experiment")
+    print("Differential Privacy × ChromaDB - Trade-off Experiment")
     print("=" * 65)
 
     # ── Embeddings ────────────────────────────────────────────────────────
@@ -166,9 +166,9 @@ def run() -> None:
     print(f"""
 Gaussian Mechanism (ε, δ)-DP:
   Injects calibrated noise into every stored embedding.
-  σ scales as 1/ε — at low ε the noise overwhelms the 384-dim signal.
+  σ scales as 1/ε - at low ε the noise overwhelms the 384-dim signal.
 
-Sparse Vector Technique — Lyu, Su & Li (VLDB 2017):
+Sparse Vector Technique - Lyu, Su & Li (VLDB 2017):
   Answers a stream of similarity threshold queries with a FIXED ε cost,
   regardless of how many documents are checked.
   AboveThreshold adds Lap(2/ε) to the threshold and Lap(4/ε) per query.

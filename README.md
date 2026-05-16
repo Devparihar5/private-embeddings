@@ -1,6 +1,6 @@
 # Differential Privacy × ChromaDB
 
-A research project demonstrating how **Differential Privacy (DP)** can protect sensitive embeddings stored in vector databases — and why this matters as AI systems increasingly store and retrieve personal data as high-dimensional vectors.
+A research project demonstrating how **Differential Privacy (DP)** can protect sensitive embeddings stored in vector databases - and why this matters as AI systems increasingly store and retrieve personal data as high-dimensional vectors.
 
 ---
 
@@ -8,7 +8,7 @@ A research project demonstrating how **Differential Privacy (DP)** can protect s
 
 ### The Problem: Embeddings Are Not Anonymous
 
-When you encode a sentence like _"Patient John has HIV and is on antiretroviral therapy"_ using a sentence-transformer, you get a 384-dimensional float vector. That vector **looks like noise** — but it is not anonymous.
+When you encode a sentence like _"Patient John has HIV and is on antiretroviral therapy"_ using a sentence-transformer, you get a 384-dimensional float vector. That vector **looks like noise** - but it is not anonymous.
 
 Vector databases like ChromaDB store these embeddings and serve them via similarity search. This creates serious privacy risks:
 
@@ -25,18 +25,18 @@ These are not theoretical. Research has shown that sentence-transformer embeddin
 
 Vector databases are being deployed to store and search:
 
-- **Medical records** — diagnoses, prescriptions, clinical notes
-- **Financial data** — transactions, credit profiles, tax documents
-- **Legal documents** — contracts, case files, privileged communications
-- **Personal communications** — emails, messages, HR records
+- **Medical records** - diagnoses, prescriptions, clinical notes
+- **Financial data** - transactions, credit profiles, tax documents
+- **Legal documents** - contracts, case files, privileged communications
+- **Personal communications** - emails, messages, HR records
 
-Once embeddings are stored in a shared or cloud-hosted vector DB, any breach, insider threat, or API misconfiguration exposes not just metadata — but the **semantic content** of every document.
+Once embeddings are stored in a shared or cloud-hosted vector DB, any breach, insider threat, or API misconfiguration exposes not just metadata - but the **semantic content** of every document.
 
 ### How Differential Privacy Fixes This
 
 Differential Privacy adds mathematically calibrated noise to each embedding **before** it is stored. The guarantee is formal:
 
-> An adversary who sees the noisy embedding learns almost nothing about whether any specific individual's data was included — regardless of what other information they have.
+> An adversary who sees the noisy embedding learns almost nothing about whether any specific individual's data was included - regardless of what other information they have.
 
 The Gaussian mechanism used here satisfies **(ε, δ)-DP**:
 
@@ -46,9 +46,9 @@ x̃ = x + N(0, σ²I)
 where  σ = sensitivity × √(2 ln(1.25/δ)) / ε
 ```
 
-- **ε (epsilon)** — privacy budget. Smaller = stronger privacy, more noise.
-- **δ (delta)** — failure probability (set to 1e-5, i.e. one-in-100,000 chance the guarantee breaks).
-- **sensitivity** — maximum L2 norm of any embedding (clipped to 1.0).
+- **ε (epsilon)** - privacy budget. Smaller = stronger privacy, more noise.
+- **δ (delta)** - failure probability (set to 1e-5, i.e. one-in-100,000 chance the guarantee breaks).
+- **sensitivity** - maximum L2 norm of any embedding (clipped to 1.0).
 
 This means even if an attacker steals the entire vector database, they cannot reliably invert the embeddings back to the original text.
 
@@ -67,10 +67,10 @@ This means even if an attacker steals the entire vector database, they cannot re
 | Embedding model | `all-MiniLM-L6-v2` (384-dim, runs locally) |
 | Privacy mechanisms | Gaussian mechanism + Sparse Vector Technique (SVT) |
 | Vector store | ChromaDB with cosine similarity |
-| Evaluation metric | Recall@3 — fraction of true top-3 results recovered after noise |
+| Evaluation metric | Recall@3 - fraction of true top-3 results recovered after noise |
 | Averaging | 5 independent noise trials per ε for stable estimates |
 
-### Mechanism 1 — Gaussian Mechanism (ε, δ)-DP
+### Mechanism 1 - Gaussian Mechanism (ε, δ)-DP
 
 Noise is injected into every embedding **before storage**. An attacker who steals the database sees only noisy vectors that cannot be reliably inverted.
 
@@ -78,7 +78,7 @@ Noise is injected into every embedding **before storage**. An attacker who steal
 x̃ = x + N(0, σ²I)    where σ = sensitivity × √(2 ln(1.25/δ)) / ε
 ```
 
-### Mechanism 2 — Sparse Vector Technique (SVT) ε-DP
+### Mechanism 2 - Sparse Vector Technique (SVT) ε-DP
 
 > Lyu, Su & Li. *"Understanding the Sparse Vector Technique for Differential Privacy."*
 > VLDB 2017. [arXiv:1603.01699](https://arxiv.org/abs/1603.01699)
@@ -92,13 +92,13 @@ for each query qᵢ:
     νᵢ ~ Lap(4/ε)                  ← per-query noise
     if qᵢ(D) + νᵢ ≥ T̂: return i   ← first above-threshold index
 ```
-Privacy cost: **ε total** — not ε per query.
+Privacy cost: **ε total** - not ε per query.
 
 **Sparse** (Algorithm 2): runs AboveThreshold up to `c` times, splitting the budget as ε/c per invocation, to find the first `c` above-threshold queries. Total cost: **ε-DP** by sequential composition.
 
 **Applied to vector search**: each query in the stream is `cosine_similarity(query, docᵢ) − threshold`. SVT privately identifies which documents are semantically relevant without paying per-document privacy cost.
 
-**Gaussian vs SVT — when to use each:**
+**Gaussian vs SVT - when to use each:**
 
 | | Gaussian | SVT |
 |---|---|---|
@@ -119,7 +119,7 @@ Privacy cost: **ε total** — not ε per query.
 │   ├── embeddings.py    # SentenceTransformer wrapper (cached)
 │   └── store.py         # ChromaDB client, upsert, query helpers
 ├── experiments/
-│   └── run_tradeoff.py  # Main experiment — sweeps ε, saves CSV
+│   └── run_tradeoff.py  # Main experiment - sweeps ε, saves CSV
 ├── results/
 │   └── tradeoff.csv     # Output: epsilon | sigma | recall@3
 ├── docker-compose.yml   # ChromaDB container (pinned to 0.6.3)
@@ -165,7 +165,7 @@ Full results saved to `results/tradeoff.csv` after each run.
 
 ## Key Findings
 
-**σ scales as 1/ε** — halving ε doubles the noise injected into every embedding dimension.
+**σ scales as 1/ε** - halving ε doubles the noise injected into every embedding dimension.
 
 At **ε < 1**, the noise standard deviation exceeds 4× the clipped embedding norm, completely overwhelming the semantic signal in 384 dimensions. Retrieval quality collapses.
 
@@ -179,11 +179,11 @@ The fundamental tension is unavoidable: **you cannot have perfect privacy and pe
 
 This project demonstrates a concrete defence against a class of attacks that are largely ignored in production AI systems today:
 
-- Most vector DB deployments store **raw embeddings with zero noise** — fully invertible by anyone with access.
-- Cloud-hosted embedding APIs (OpenAI, Cohere, etc.) generate embeddings server-side, meaning the provider sees your raw text. DP at the storage layer does not help here — the damage is done before storage.
+- Most vector DB deployments store **raw embeddings with zero noise** - fully invertible by anyone with access.
+- Cloud-hosted embedding APIs (OpenAI, Cohere, etc.) generate embeddings server-side, meaning the provider sees your raw text. DP at the storage layer does not help here - the damage is done before storage.
 - **Local embedding models + DP noise injection** (exactly what this project does) is the only architecture that provides end-to-end protection.
 
-As RAG (Retrieval-Augmented Generation) systems become standard infrastructure for handling sensitive documents, DP-protected vector stores will become a compliance requirement — not an academic curiosity.
+As RAG (Retrieval-Augmented Generation) systems become standard infrastructure for handling sensitive documents, DP-protected vector stores will become a compliance requirement - not an academic curiosity.
 
 ---
 

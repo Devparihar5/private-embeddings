@@ -26,7 +26,7 @@ DOCUMENTS: List[str] = [
     "Checking account balance is $4,200 with two pending transactions.",
     "Diagnosed with generalized anxiety disorder; referred to therapist.",
     "Home equity line of credit approved for $50,000 at 7.5% APR.",
-    "Blood pressure reading: 138/88 mmHg — borderline hypertensive.",
+    "Blood pressure reading: 138/88 mmHg - borderline hypertensive.",
     "Retirement savings total $280,000 across IRA and 401k accounts.",
     "Patient is allergic to penicillin and sulfa-based antibiotics.",
 ]
@@ -163,7 +163,7 @@ def main() -> None:
 
     # ── 4. Query comparison ───────────────────────────────────────────────────
     print("\n" + "=" * 60)
-    print(f'STEP 4: Query — "{QUERY_TEXT}"')
+    print(f'STEP 4: Query - "{QUERY_TEXT}"')
     print("=" * 60)
     query_emb = embed_texts(model, [QUERY_TEXT])[0]
 
